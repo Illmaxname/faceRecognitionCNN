@@ -10,9 +10,9 @@ class Camera_reader(object):
         self.img_size = 128
 
     def build_camera(self):
-        face_cascade = cv2.CascadeClassifier('D:\Programs\python3.8\Lib\site-packages\cv2\data\haarcascade_frontalface_alt.xml')
+        face_cascade = cv2.CascadeClassifier('D:\Programs\python3.8\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
         # Прочитайте имя подпапки в наборе данных набора данных
-        name_list = read_name_list('.\\training')
+        name_list = read_name_list('.\\trShCropped')
 
         # Откройте камеру и начните читать экран
         cameraCapture = cv2.VideoCapture(0)

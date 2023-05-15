@@ -2,6 +2,7 @@ from dataSet import DataSet
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation, Convolution2D, MaxPooling2D, Flatten, Dropout
 import numpy as np
+import cv2
 
 # Построить модель распознавания лиц на основе CNN
 class Model(object):
@@ -39,14 +40,14 @@ class Model(object):
         )
 
         self.model.add(Convolution2D(filters=64, kernel_size=(5, 5), padding='same',
-                data_format='channels_last',
-                input_shape=self.dataset.X_train.shape[1:]))
+                                     data_format='channels_last',
+                                     input_shape=self.model.output_shape[1:]))
         self.model.add(Activation('relu'))
         self.model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
 
         self.model.add(Convolution2D(filters=128, kernel_size=(5, 5), padding='same',
-                data_format='channels_last',
-                input_shape=self.dataset.X_train.shape[1:]))
+                                     data_format='channels_last',
+                                     input_shape=self.model.output_shape[1:]))
         self.model.add(Activation('relu'))
         self.model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
 
@@ -58,7 +59,6 @@ class Model(object):
         self.model.add(Activation('softmax'))
         self.model.summary()
 
-
     # Функция обучения модели, конкретный оптимизатор и потеря могут быть выбраны по-разному
     def train_model(self):
         self.model.compile(
@@ -66,12 +66,9 @@ class Model(object):
             loss='categorical_crossentropy',
             metrics=['accuracy'])
 
-        # epochs, batch_size — настраиваемые параметры, epochs — количество раундов обучения,
-        # batch_size — сколько выборок обучается каждый раз
-        #self.model.fit(self.dataset.X_train, self.dataset.Y_train, epochs=2, batch_size=10)
 
-        batch_size = 8
-        epochs = 16
+        batch_size = 25
+        epochs = 14
 
         self.model.fit(
             self.dataset.X_train,
@@ -79,7 +76,6 @@ class Model(object):
             batch_size=batch_size,
             epochs=epochs,
             validation_data=(self.dataset.X_test, self.dataset.Y_test),
-            #shuffle=True
         )
 
     def evaluate_model(self):
@@ -109,7 +105,7 @@ class Model(object):
         return max_index, result[0][max_index]  # Первый параметр - это индекс метки с наибольшей вероятностью, а второй параметр - соответствующая вероятность
 
 if __name__ == '__main__':
-    dataset = DataSet('.\\trainingShort')
+    dataset = DataSet('.\\trShCropped')
     dataset.check()
     model = Model()
     model.read_trainData(dataset)
