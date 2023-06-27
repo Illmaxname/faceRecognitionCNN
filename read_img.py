@@ -18,7 +18,7 @@ def readAllImg(path, *suffix):
         print("Error")
     else:
         print("Done")
-        return resultArray, img_name_list
+        return resultArray#, img_name_list #comment the second param to correctly run pick_face.py
 
 def endwith(s, *endstring):
    resultArray = map(s.endswith, endstring)

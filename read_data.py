@@ -1,19 +1,13 @@
 import os
 import cv2
 import numpy as np
-
 from read_img import endwith
-
-# Введите путь к файлу, прочитайте изображения в каждой папке под ним и присвойте каждой папке разные метки.
-#Вернуть список img, вернуть список, соответствующий метке, и вернуть количество папок (меток несколько)
 
 def read_file(path):
     img_list = []
     label_list = []
     dir_counter = 0
     IMG_SIZE = 128
-
-    # Прочитать все файлы jpg во всех подпапках по пути и сохранить их в списке
 
     for child_dir in os.listdir(path):
          child_path = os.path.join(path, child_dir)
@@ -28,12 +22,9 @@ def read_file(path):
 
          dir_counter += 1
 
-    # Возвращенный img_list преобразуется в формат np.array
     img_list = np.array(img_list)
 
     return img_list, label_list, dir_counter
-
-# Прочитайте папку набора обучающих данных и верните их имена в список
 
 def read_name_list(path):
     name_list = []
